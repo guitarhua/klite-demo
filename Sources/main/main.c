@@ -9,29 +9,8 @@
 #include "board.h"
 #include "nvic.h"
 #include "uart.h"
+#include "debug.h"
 
-#define MAX_DEBUG_LEN	1024
-static kmutex_t debug_mutex;
-static char*    debug_buff;
-
-void debug(const char* fmt, ...)
-{
-	va_list va;
-	kmutex_lock(debug_mutex);
-	va_start(va,fmt);
-	vsnprintf(debug_buff,MAX_DEBUG_LEN,fmt,va);
-	va_end(va);
-	uart_write(1,debug_buff,strlen(debug_buff));
-	kmutex_unlock(debug_mutex);
-}
-
-void debug_init(void)
-{
-	debug_buff = malloc(MAX_DEBUG_LEN);
-	debug_mutex = kmutex_create();
-	uart_init(1,1024);
-	uart_open(1,115200,0);
-}
 
 void demo_main(void* arg)
 {
@@ -52,7 +31,7 @@ void demo_init(void)
 	ver = kernel_version();
 	debug("\r\nklite version:%d.%d.%d\r\n",(ver>>24)&0xFF,(ver>>16)&0xFF,ver&0xFFFF);
 	kthread_create(demo_main,0,0);
-	kthread_create(demo_main,0,0);
+	kthread_create(demo_main,0,0);//故意创建两个同样的线程
 	kmem_info(&total,&used);
 	debug("memory usage: %d/%d byte\r\n",used,total);
 }
