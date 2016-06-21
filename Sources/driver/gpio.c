@@ -6,7 +6,7 @@
 #include "stm32f4xx.h"
 #include "gpio.h"
 
-#define GET_GPIO_CTX(x)	((GPIO_TypeDef*)(AHB1PERIPH_BASE + ((x)<<11)))
+#define GET_GPIO_CTX(x)	((GPIO_TypeDef*)(AHB1PERIPH_BASE + ((x)<<10)))
 
 void gpio_open(int port, int pin, int mode, int type)
 {
