@@ -1,7 +1,6 @@
 /*
 * STM32F4xx GPIOÇý¶¯
 * ½¯Ïþ¸Ú<kerndev@foxmail.com>
-* 2016.6.12
 */
 #include "stm32f4xx.h"
 #include "gpio.h"

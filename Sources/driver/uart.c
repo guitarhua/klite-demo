@@ -192,7 +192,7 @@ int uart_read(int id, void* buf, int len)
 }
 
 
-void uart_purge(int id)
+void uart_clear(int id)
 {
 	struct uart_contex* ctx;
 	ctx = GET_UART_CTX(id);
