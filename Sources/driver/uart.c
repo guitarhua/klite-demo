@@ -166,29 +166,23 @@ void uart_write(int id, void* buf, int len)
 int uart_read(int id, void* buf, int len)
 {
 	int i;
-	int ret;
 	char* pdata;
 	struct uart_contex* ctx;
 	pdata = buf;
 	ctx = GET_UART_CTX(id);
-	if(ctx->in >= ctx->out)
+	for(i=0; i<len; i++)
 	{
-		ret = ctx->in - ctx->out;
-	}
-	else
-	{
-		ret = ctx->size + ctx->in - ctx->out;
-	}
-	ret = (len<ret)?len:ret;
-	for(i=0; i<ret; i++)
-	{
+		if(ctx->out == ctx->in)
+		{
+			break;
+		}
 		*pdata++ = ctx->buff[ctx->out++];
 		if(ctx->out == ctx->size)
 		{
 			ctx->out = 0;
 		}
 	}
-	return ret;
+	return i;
 }
 
 
